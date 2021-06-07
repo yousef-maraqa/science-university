@@ -1,0 +1,27 @@
+{
+  "name": "su",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "bootstrap": "^4.6.0",
+    "intl-tel-input": "^17.0.12",
+    "jquery": "^3.6.0",
+    "odometer": "^0.4.8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yousef-maraqa/ZU-Vardot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yousef-maraqa/ZU-Vardot/issues"
+  },
+  "homepage": "https://github.com/yousef-maraqa/ZU-Vardot#readme",
+  "devDependencies": {},
+  "description": ""
+}

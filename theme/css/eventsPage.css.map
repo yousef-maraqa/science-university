@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,WAAW,CAAC;EACV,gBAAgB,EAAE,eAAe;CAUlC;;AAXD,AAEE,WAFS,CAET,gBAAgB,AAAA,OAAO,CAAC;EACtB,KAAK,ECJE,OAAO;CDKf;;AAJH,AAKE,WALS,CAKT,CAAC,CAAA;EACC,KAAK,ECRA,OAAO;CDYb;;AAVH,AAOI,WAPO,CAKT,CAAC,AAEE,MAAM,CAAA;EACL,KAAK,EAAE,kBAAkB;CAC1B;;AAGL,AACE,cADY,CACZ,GAAG,CAAC;EACF,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;CACb;;AAJH,AAKE,cALY,CAKZ,CAAC,CAAA;EACC,KAAK,ECnBE,OAAO;CDoBf",
+    "sources": [
+        "../scss/eventsPage.scss",
+        "../scss/_colors.scss"
+    ],
+    "names": [],
+    "file": "eventsPage.css"
+}
