@@ -9,6 +9,7 @@
 
    $users = new Users;
    $user_id=$_SESSION['userid'];
+   $message='';
 	$row=$users->fetchAllToDelete($user_id);
 	$name = $email = $password = $role = $is_active = '';
 	if (isset($_GET['submit'])) {
@@ -20,7 +21,8 @@
 		$hashedPassword=password_hash($password,PASSWORD_DEFAULT); 
 	   try {
 		   $users->newUser($name, $email, $hashedPassword, $role, $is_active);
-		   header('Location: ' . $_SERVER['PHP_SELF']);
+		   $message='data has been added';
+		 
 	   } catch (\Throwable $th) {
 		   echo $th;
 	   }
@@ -37,6 +39,10 @@
 		   echo $th;
 		}
 	}
+
+	if ($message != '') {
+		$msg='<div class="alert alert-success">'.$message.'</div>' ;
+	}
    ?>
 
 <html lang="en">
@@ -51,10 +57,11 @@
 
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
+		<?php echo $msg; ?>
 
 
 
-<?php   if($_SESSION['role']=='super'){ ?>
+
 			<p>
 				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 					Add user
@@ -79,7 +86,9 @@
 				 
 					
 					<select name="role" required class="form-control" maxlength="20">
+					<?php   if($_SESSION['role']=='super'){ ?>
 						<option value="super">super</option>
+						<?php } ?>
 						<option value="author">author</option>
 					</select>
 					<select name="active" required class="form-control">
@@ -91,7 +100,7 @@
 				</form>
 
 			</div>
-<?php } ?>
+
 
 			<div class="table-responsive">
 				<table class="table table-borderd">
@@ -124,7 +133,7 @@
 								 <button type="submit" name="delete-submit" class="btn btn-danger"    onclick="confirm('Are you sure?')">DELETE</button>
 								 </form>
 								 
-								 <a type="submit" name="edit_btn" class="btn btn-success"  href="./editUsers.php?ID=<?php  echo $element['user_id']; ?>" >UPDATE</butaton>
+								 <a type="submit" name="edit_btn" class="btn btn-success my-1"  href="./editUsers.php?ID=<?php  echo $element['user_id']; ?>" >UPDATE</butaton>
 								  <?php } ?>
 							</td>
 
@@ -143,6 +152,11 @@
 	<script>
 		new FroalaEditor('textarea');
 	</script>
+		<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
 </body>
 
 </html>

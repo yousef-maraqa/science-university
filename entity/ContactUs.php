@@ -33,6 +33,7 @@ public function deleteMessage($id){
 }
 $contactUs= new ContactUs();
 if (isset($_POST['submit'])) {
+    $msg='';
         $fullName=$_POST['fullName'];    
         $phoneNumber=$_POST['phoneNumber'];    
         $email=$_POST['email'];    
@@ -40,7 +41,8 @@ if (isset($_POST['submit'])) {
 
             try {
                 $contactUs->insert($fullName,$phoneNumber,$email,$body);
-                header('location:../html_pages/index.php ');
+                $msg='success';
+                header('location:../html_pages/index.php?query='. $msg );
                 die();
                
             } catch (\Throwable $th) {

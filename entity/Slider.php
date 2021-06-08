@@ -15,6 +15,7 @@ include_once(dirname(__FILE__).'/../config/Database.php');
          $row=$this->resultset();
          return $row;
      }
+     
  
     
      public function newSlider($slider_text,$rank,$userid){
@@ -37,11 +38,18 @@ include_once(dirname(__FILE__).'/../config/Database.php');
      }
 
      public function getElementById($slider_id){
-      $this->query('SELECT * FROM slider WHERE slider_id=:slider_id');
-      $this->bind('slider_id',$slider_id);
+      $this->query('SELECT S.slider_id ,S.user_id, S.slider_text,S.rank , S.media_PK , M.img_url ,M.img_Alt ,M.sourse ,S.created_at
+      FROM slider AS S
+        INNER JOIN media AS M
+       ON S.media_PK= M.media_PK
+       WHERE slider_id =:slider_id
+       ORDER BY S.rank   ');
+       $this->bind(':slider_id',$slider_id);
+
       $this->execute();
       $row=$this->resultset();
       return $row;
+  
 
   }
  

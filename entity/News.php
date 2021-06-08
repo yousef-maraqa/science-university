@@ -74,7 +74,7 @@ include_once(dirname(__FILE__).'/../config/Database.php');
      }
      public function getElementById($news_id){
          $this->query(' 
-              SELECT  N.news_id ,N.body , N.user_id ,N.title ,  M.img_url , N.status ,N.created_at  
+              SELECT  N.news_id ,N.body , N.user_id ,N.title , N.summary , N.media_PK ,  M.img_url ,M.img_Alt , N.status ,N.created_at  
 
          FROM news AS N
         INNER JOIN media AS M

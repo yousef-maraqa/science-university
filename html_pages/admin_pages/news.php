@@ -12,6 +12,7 @@ require('../../entity/media.php');
 
 $news = new News();
 $media =new Media();
+$message='';
 //ad new news
 $title = $body = $startDate = $endDate = $location = $status = '';
 if (isset($_POST['submit'])) {
@@ -53,6 +54,7 @@ if (isset($_POST['submit'])) {
 	try {
 		$media->insertIMG($image_name,$alt,'news');
 		$news->newNews($title, $body,  $summary, $status, $userid);
+		$message='data has been added';
 	} catch (\Throwable $th) {
 		echo $th;
 	}
@@ -67,10 +69,14 @@ if (isset($_GET['delete-submit'])) {
 	try {
 		$news->deleteNews($id);
 		header('Location: ' . $_SERVER['PHP_SELF']);
+
 		die;
 	} catch (\Throwable $th) {
 		echo $th;
 	}
+}
+if ($message != '') {
+	$msg='<div class="alert alert-success">'.$message.'</div>' ;
 }
 ?>
 <html lang="en">
@@ -85,15 +91,11 @@ if (isset($_GET['delete-submit'])) {
 
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
-
-
-
-
+<?php echo $msg; ?>
 			<p>
 				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 					Add News
 				</a>
-
 			</p>
 			<div class="collapse" id="collapseExample">
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form ml-4" id="addNews" enctype="multipart/form-data">
@@ -175,7 +177,7 @@ if (isset($_GET['delete-submit'])) {
 									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
 								</form>
 
-								<a type="submit" name="edit_btn" class="btn btn-success" href="./editNews.php?ID=<?php echo $element['news_id']; ?>">UPDATE</butaton>
+								<a type="submit" name="edit_btn" class="btn btn-success my-1" href="./editNews.php?ID=<?php echo $element['news_id']; ?>">UPDATE</butaton>
 
 							</td>
 
@@ -194,6 +196,11 @@ if (isset($_GET['delete-submit'])) {
 	<script>
 		new FroalaEditor('textarea');
 	</script>
+	<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
 </body>
 
 </html>

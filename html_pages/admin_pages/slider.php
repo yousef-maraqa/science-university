@@ -1,21 +1,21 @@
 <!doctype html>
 
 <?php
-   session_start();
+session_start();
 
 
-   require('../../entity/Slider.php');
-   
-   require('../../entity/media.php');
+require('../../entity/Slider.php');
+
+require('../../entity/media.php');
 
 
 
-   $slider = new Slider();
-   $media= new Media();
+$slider = new Slider();
+$media = new Media();
 
- 
-   if (isset($_POST['submit'])) {
-	   // get image data
+
+if (isset($_POST['submit'])) {
+	// get image data
 	$file = $_FILES['file'];
 	$image_name = $_FILES['file']['name'];
 	$tmp_name   = $_FILES['file']['tmp_name'];
@@ -30,7 +30,6 @@
 			if ($fileSize < 1000000) {
 				$fileDestination =  "../../theme/assets/" . $image_name;
 				move_uploaded_file($tmp_name, $fileDestination);
-		
 			} else {
 				echo "Your image is too big";
 			}
@@ -41,37 +40,35 @@
 		echo "You can upload jpg,jpeg,png Files";
 	}
 
-	   
-	   $userid =   $_SESSION['userid'];
-	   $slider_text = $_POST['slider_text'];
-	   $rank = $_POST['rank'];
-	   $alt =$_POST['alt'];
-	   try {
-		$media->insertIMG($image_name,$alt,'slider');
-		   $slider->newSlider($slider_text , $rank ,$userid);
-	   } catch (\Throwable $th) {
-		   echo $th;
-	   }
- 
-	   
-   }
-   $row = '';
-   $row = $slider->fetchAll();
 
- 
+	$userid =   $_SESSION['userid'];
+	$slider_text = $_POST['slider_text'];
+	$rank = $_POST['rank'];
+	$alt = $_POST['alt'];
+	try {
+		$media->insertIMG($image_name, $alt, 'slider');
+		$slider->newSlider($slider_text, $rank, $userid);
+	} catch (\Throwable $th) {
+		echo $th;
+	}
+}
+$row = '';
+$row = $slider->fetchAll();
 
-   if (isset($_GET['delete-submit'])) {
-	   $id = $_GET['delete'];
 
-	   try {
-		   $slider->deleteSlider($id);
-		   header('Location: ' . $_SERVER['PHP_SELF']);
-		   die;
-	   } catch (\Throwable $th) {
-		   echo $th;
-	   }
-   }
-   ?>
+
+if (isset($_GET['delete-submit'])) {
+	$id = $_GET['delete'];
+
+	try {
+		$slider->deleteSlider($id);
+		header('Location: ' . $_SERVER['PHP_SELF']);
+		die;
+	} catch (\Throwable $th) {
+		echo $th;
+	}
+}
+?>
 <html lang="en">
 
 <?php include('../../includes/admin_includes/head.php') ?>
@@ -102,16 +99,18 @@
 						</div>
 
 					</div>
-					
-					<select name="rank" required class="form-control">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
+					<div class="row">
+						<label for="rank">order</label>
+						<select name="rank" required class="form-control">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+						</select>
+					</div>
 
-					</select>
 					<div class="col col-md-3">
 						<label for="file-input" class=" form-control-label">Image</label>
 					</div>
@@ -123,7 +122,7 @@
 						<input type="text" name="alt" id="alt" required placeholder="text..." class="form-control">
 					</div>
 					</p>
-			 
+
 
 					<select name="status" required class="form-control">
 						<option value="published">published</option>
@@ -139,16 +138,16 @@
 			<div class="table-responsive">
 				<table class="table table-borderd">
 					<thead>
-						<tr>
+						<tr class="w-100">
 							<th>slider id</th>
 							<th>user id</th>
 							<th>slider text</th>
 							<th>order</th>
-							<th>image name</th>
+							<th style="width: 20%;">image</th>
 							<th>image alternative text</th>
 							<th>sourse</th>
 							<th>created at</th>
-					 
+
 							<!-- S.slider_id ,S.user_id, S.slider_text,S.order ,S.created_at , M.img_url ,M.img_Alt ,M.sourse -->
 
 						</tr>
@@ -161,23 +160,23 @@
 							<td><?php echo $element['slider_text'] ?></td>
 							<td><?php echo $element['rank'] ?></td>
 							<td>
-							<div  class="d-flex   justify-content-center" >
-							<img style="width: 50%;" src="../../theme/assets/<?php  echo $element['img_url'] ?>" alt="">
-							</div>
-							
+								<div class="d-flex   justify-content-center">
+									<img style="width: 50%;" src="../../theme/assets/<?php echo $element['img_url'] ?>" alt="">
+								</div>
+
 							</td>
 							<td><?php echo $element['img_Alt'] ?></td>
 							<td><?php echo $element['sourse'] ?></td>
 							<td><?php echo $element['created_at'] ?></td>
 
-				 
+
 							<td>
 								<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
 									<input type="hidden" name="delete" value="<?php echo $element['slider_id']; ?>">
 									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
 								</form>
 
-								<a type="submit" name="edit_btn" class="btn btn-success" href="./editSlider.php?ID=<?php echo $element['slider_id']; ?>">UPDATE</butaton>
+								<a type="submit" name="edit_btn" class="btn btn-success  my-1" href="./editSlider.php?ID=<?php echo $element['slider_id']; ?>">UPDATE</butaton>
 
 							</td>
 
@@ -195,10 +194,9 @@
 	<?php include('../../includes/admin_includes/scripts.php') ?>
 	<script>
 		new FroalaEditor('textarea');
-		if ( window.history.replaceState ) {
-	   window.history.replaceState( null, null, window.location.href );
-   }
-		
+		if (window.history.replaceState) {
+			window.history.replaceState(null, null, window.location.href);
+		}
 	</script>
 
 </body>

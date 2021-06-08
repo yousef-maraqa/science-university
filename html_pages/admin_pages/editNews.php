@@ -17,7 +17,8 @@ if (isset($_GET['message'])) {
 
 
 $row=$news->getElementById($news_id);
- $news->closeConnection();
+ 
+   $news->closeConnection();
 ?>
 <html lang="en">
 
@@ -38,7 +39,7 @@ $row=$news->getElementById($news_id);
 <?php echo $message; ?>
  
  
-				<form action="../../entity/editNews.php?ID=<?php echo $_GET['ID'];  ?>" method="post" class="form ml-4" id="editNews">
+				<form action="../../entity/editNews.php?ID=<?php echo $_GET['ID'];?>&media=<?php echo $row[0]['media_PK']; ?>" method="post" class="form ml-4" id="editNews" enctype="multipart/form-data">
 					<div class="row">
 						<div class="form-group">
 							<input type="text" name="title" id="title" required placeholder="title" class="form-control" value="<?php echo $row[0]['title'] ?>">
@@ -54,11 +55,20 @@ $row=$news->getElementById($news_id);
 					</div>
 
 					</p>
-					<div class="row my-4">
+					<div class="row my-4" style="width: 65%;">
 						<textarea rows="4" cols="50" name="body" required   >
 						<?php echo $row[0]['body'] ?> </textarea>
 					</div>
-
+					<h2>current image</h2>
+					<div class="row my-4" style="width: 50%;">
+					<img class="w-100" src="../../theme/assets/<?php echo $row[0]['img_url']  ?>" >
+					</div>
+					<div class="col-12 col-md-9">
+						<input type="file" id="file-input" name="file" class="form-control-file">
+					</div>
+					<div class="form-group">
+							<input type="text" name="alt" id="alt" required placeholder="alternative text" class="form-control" value="<?php echo $row[0]['img_Alt'] ?>"> 
+						</div>
 
 					<select name="status" required class="form-control" value="<?php echo $row[0]['status'] ?>">
 						<option value="published">published</option>

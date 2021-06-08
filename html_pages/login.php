@@ -43,39 +43,43 @@ if (isset($_POST['submit'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php include('../includes/header.php'); ?>
+ <head>
+ <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+ <link href="../styles/css/login.css" rel="stylesheet" >
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+
+
+
+</style>
+ </head>
 
 <body>
 
-    <div class="container">
+    <div style="height: 100%;">
 
-        <div id="login-container">
-            <div class="form-wrap">
-                <h1>Login</h1>
-                <p>Please fill in your credentials to login.</p>
-                <span class="error" style="display: block;text-align: center;"></span>
-                <form autocomplete="off" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <div class="form-group ">
-                        <label>Username / name</label>
-                        <input type="text" required name="name" class="form-control">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" required name="password" class="form-control">
-                        <span class="help-block"> </span>
-                        <?php echo $error; ?>
-                    </div>
-                    <button type="submit" class="btn btn-primary" name="submit">login</button>
+    <div class="wrapper fadeInDown" style="height: 100%;">
+  <div id="formContent">
+    <!-- Tabs Titles -->
 
-                </form>
-            </div>
-        </div>
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="../theme/assets/group-4@3x.png" id="icon" alt="User Icon" />
+    </div>
 
+    <!-- Login Form -->
+    <form>
+      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
 
+ 
+  </div>
+</div>
 
-        <!-- js scripts  -->
-        <?php include('../includes/scripts.php') ?>
+ 
 </body>
 
 </html>

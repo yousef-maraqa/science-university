@@ -16,4 +16,13 @@ public function insertIMG($img_url,$img_alt,$sourse){
 
 }
 
+public function updateIMG($img_url,$img_alt,$sourse ,$entity_id){
+    $this->query('UPDATE media SET img_url=:img_url , img_Alt=:img_alt , sourse=:sourse  WHERE  media_PK=:entity_id');
+    $this->bind(':entity_id', $entity_id);
+    $this->bind(':img_url', $img_url);
+    $this->bind(':img_alt', $img_alt);
+    $this->bind(':sourse', $sourse);
+    $this->execute();
+}
+
  }

@@ -10,33 +10,42 @@ require('../../entity/NavLinks.php');
 
 
 $link = new NavLinks();
+$message = '';
 //add new news
- if (isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {
 	$title = $_POST['title'];
 	$path = $_POST['path'];
 	$type = $_POST['type'];
 	$cluster = $_POST['cluster'];
 	$userid =   $_SESSION['userid'];
-	
+
 	try {
-		$link->newLink($title, $path,  $type,$cluster, $userid);
+		$link->newLink($title, $path,  $type, $cluster, $userid);
+		$message = 'data has been added';
 	} catch (\Throwable $th) {
 		echo $th;
 	}
 }
 //fetch all data
- $row=$link->fetchAll();
+$row = $link->fetchAll();
 //delete btn
+$deletemsg = "";
 if (isset($_GET['delete-submit'])) {
 	$id = $_GET['delete'];
 
 	try {
 		$link->deleteLink($id);
+		$deletemsg = 'data has been deleted';
 		header('Location: ' . $_SERVER['PHP_SELF']);
 		die;
 	} catch (\Throwable $th) {
 		echo $th;
 	}
+}
+if ($message != '') {
+	$msg = '<div class="alert alert-success">' . $message . '</div>';
+}elseif($deletemsg != ''){
+	$msg = '<div class="alert alert-success">' . $deletemsg . '</div>';
 }
 ?>
 <html lang="en">
@@ -50,11 +59,10 @@ if (isset($_GET['delete-submit'])) {
 		<?php include('../../includes/admin_includes/sidebar.php') ?>
 
 		<!-- Page Content  -->
-		<div id="content" class="p-4 p-md-5 pt-5">
+		<div id="content" class="p-4 p-md-5 pt-5 ml-auto">
+			<?php echo $msg; ?>
 
-
-
-
+	
 			<p>
 				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 					Add Link
@@ -63,14 +71,14 @@ if (isset($_GET['delete-submit'])) {
 			</p>
 			<div class="collapse" id="collapseExample">
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form ml-4" id="addLink">
-				<select name="cluster" required class="form-control">
+					<select name="cluster" required class="form-control">
 						<option value="EXPLORE">EXPLORE</option>
 						<option value="QUICK_LINKS">QUICK LINKS</option>
 						<option value="USING_OUR_SITE">USING OUR SITE</option>
 						<option value="HOW_TO_FIND_US">HOW TO FIND US</option>
 						<option value="SOCIAL_LINKS">SOCIAL_LINKS</option>
 						<option value="NAVBAR">NAVBAR</option>
-			 
+
 
 					</select>
 					<div class="row">
@@ -86,7 +94,7 @@ if (isset($_GET['delete-submit'])) {
 						</div>
 
 					</div>
-			 
+
 
 
 					<select name="type" required class="form-control">
@@ -105,32 +113,33 @@ if (isset($_GET['delete-submit'])) {
 					<thead>
 						<tr>
 							<th>link id</th>
-							<th>user id</th>
+
 							<th>cluster title</th>
 							<th>title</th>
 							<th>path</th>
 							<th>type</th>
- 							<th>created at</th>
-							<th>updated at</th>
+							<th>created at</th>
 
 
 						</tr>
 					</thead>
 					<?php foreach ($row as $element) : ?>
 
-						<tr>
-							<?php foreach ($element as $detail) : ?>
-								<td><?php echo $detail ?>
-								</td>
+						<tr style="width: 80%;">
+							<td style="width: 10%;"><?php echo $element['navigation_id']; ?></td>
+							<td style="width: 10%;"><?php echo $element['cluster_title']; ?></td>
+							<td style="width: 10%;"><?php echo $element['title']; ?></td>
+							<td style="width: 10%;"><?php echo $element['path']; ?></td>
+							<td style="width: 10%;"><?php echo $element['type']; ?></td>
+							<td style="width: 10%;"><?php echo $element['created_at']; ?></td>
 
-							<?php endforeach; ?>
 							<td>
 								<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
 									<input type="hidden" name="delete" value="<?php echo $element['navigation_id']; ?>">
 									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
 								</form>
 
-								<a type="submit" name="edit_btn" class="btn btn-success" href="./editLinks.php?ID=<?php echo $element['navigation_id']; ?>">UPDATE</butaton>
+								<a type="submit" name="edit_btn" class="btn btn-success my-1" href="./editLinks.php?ID=<?php echo $element['navigation_id']; ?>">UPDATE</butaton>
 
 							</td>
 
@@ -148,6 +157,11 @@ if (isset($_GET['delete-submit'])) {
 	<?php include('../../includes/admin_includes/scripts.php') ?>
 	<script>
 		new FroalaEditor('textarea');
+	</script>
+	<script>
+		if (window.history.replaceState) {
+			window.history.replaceState(null, null, window.location.href);
+		}
 	</script>
 </body>
 
