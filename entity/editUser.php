@@ -10,9 +10,10 @@ session_start();
 
     $userId=$_GET['ID'] ;
             $is_active = $_POST['active'];
+            $role=$_POST['role'];
  
            try {
-           $user->updateUsers($is_active,$userId);
+           $user->updateUsers($is_active,$role , $userId);
            $user->closeConnection();
            $message='data has been updated';
            header('location: ../html_pages/admin_pages/editUsers.php?ID='.$_GET['ID'] .'&message='.$message);

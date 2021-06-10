@@ -36,16 +36,16 @@ $row=$news->getElementById($news_id);
 				<form action="../../entity/editNews.php?ID=<?php echo $_GET['ID'];?>&media=<?php echo $row[0]['media_id']; ?>" method="post" class="form ml-4" id="editNews" enctype="multipart/form-data">
 					<div class="row">
 						<div class="form-group">
-							<input type="text" name="title" id="title" required placeholder="title" class="form-control" value="<?php echo $row[0]['title'] ?>">
+							<input type="text" name="title" id="title" required placeholder="title" class="form-control" value="<?php echo $row[0]['title'] ?>" maxlength="100" rel="txtTooltip" title="maximum 100 characters" data-toggle="tooltip" data-placement="right">
 						</div>
 
 					</div>
 					<p>
-						<a class=" " data-toggle="collapse" href="#summary" role="button" aria-expanded="false" aria-controls="summary">
+						<a class=" " data-toggle="collapse" href="#summary" role="button" aria-expanded="false" aria-controls="summary" >
 							summary
 						</a>
 					<div class="collapse" id="summary">
-						<input type="text" name="summary" id="summary" placeholder="summary" class="form-control" value="<?php echo $row[0]['summary'] ?>">
+						<input type="text" name="summary" id="summary" placeholder="summary" class="form-control" value="<?php echo $row[0]['summary'] ?>"  maxlength="125" rel="txtTooltip" title="maximum 125 characters" data-toggle="tooltip" data-placement="right">
 					</div>
 
 					</p>

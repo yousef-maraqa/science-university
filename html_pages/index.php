@@ -232,7 +232,7 @@
             ?>
            <div class="col-lg-6 col-xl-4 overflow-hidden my-3">
              <div class="card" id="card-left">
-               <img class="card-img-top event-img" src="../theme/assets/<?php echo  $eventsData[$i]['img_url']; ?>" alt="people talk to each other" loading="lazy" />
+               <img class="card-img-top event-img" src="../theme/assets/<?php echo  $eventsData[$i]['img_url']; ?>" alt="people talk to each other" loading="lazy" style="height: 13rem;" />
                <div class="calender-img">
                  <div class="date">
                    <span class="day"> <?php echo date('d', strtotime($day)); ?></span>
@@ -314,7 +314,7 @@
              <label for="PhoneNumber" class="visuallyhidden">PhoneNumber: </label>
              <input type="tel" pattern="\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|
 2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|
-4[987654310]|3[9643210]|2[70]|7|1)\d{1,14}$" class="form-control" id="PhoneNumber" name="phoneNumber" required />
+4[987654310]|3[9643210]|2[70]|7|1)\d{1,14}$" class="form-control" id="PhoneNumber" name="phoneNumber" placeholder="Phone Number" required />
 
              <i class="fas fa-check-circle"></i>
              <i class="fas fa-exclamation-circle"></i>

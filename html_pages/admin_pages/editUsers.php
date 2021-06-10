@@ -34,8 +34,10 @@ if (isset($_GET['message'])) {
 					</div>	 
                     <div class="form-group">
                     <label for="role">role</label>
-                    <?php echo $row[0]['role'] ?>
-							<input type="text" readonly name="role" id="role" required placeholder="role" class="form-control" value="<?php echo $row[0]['role'] ?>">
+                    <select name="role" required class="form-control" value="<?php echo $row[0]['role'] ?>">
+						<option value="author" <?php if ($row[0]['role']=='author') echo "selected='selected'";?>>author</option>
+						<option value="super"  <?php if ($row[0]['role']=='super') echo "selected='selected'";?>>super</option>
+					</select>
 						</div>
 					<select name="active" required class="form-control" value="<?php echo $row[0]['is_active'] ?>">
 						<option value="active" <?php if ($row[0]['is_active']=='active') echo "selected='selected'";?>>active</option>

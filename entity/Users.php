@@ -73,10 +73,11 @@ include_once(dirname(__FILE__).'/../config/Database.php');
      }
 
 
-     public function updateUsers($is_active, $userid){ 
-        $this->query('UPDATE users SET is_active=:is_active   WHERE user_id=:user_id');
+     public function updateUsers($is_active, $role, $userid){ 
+        $this->query('UPDATE users SET is_active=:is_active , role=:role  WHERE user_id=:user_id');
         $this->bind(':is_active',$is_active);
         $this->bind(':user_id',$userid);
+        $this->bind(':role',$role);
 		
         $this->execute();
 	 

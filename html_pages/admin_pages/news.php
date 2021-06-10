@@ -104,16 +104,16 @@ if ($message != '') {
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form ml-4" id="addNews" enctype="multipart/form-data">
 					<div class="row">
 						<div class="form-group">
-							<input type="text" name="title" id="title" required placeholder="title" class="form-control">
+							<input type="text" name="title" id="title" required placeholder="title" class="form-control" maxlength="100" rel="txtTooltip" title="maximum 100 characters" data-toggle="tooltip" data-placement="right">
 						</div>
 
 					</div>
 					<p>
-						<a class=" " data-toggle="collapse" href="#summary" role="button" aria-expanded="false" aria-controls="summary">
+						<a class=" " data-toggle="collapse" href="#summary" role="button" aria-expanded="false" aria-controls="summary"  >
 							summary
 						</a>
 					<div class="collapse" id="summary">
-						<input type="text" name="summary" id="summary" placeholder="summary" class="form-control">
+						<input type="text" name="summary" id="summary" placeholder="summary" class="form-control"  maxlength="125" rel="txtTooltip" title="maximum 125 characters" data-toggle="tooltip" data-placement="right">
 					</div>
 					</p>
 					<div class="col col-md-3">
