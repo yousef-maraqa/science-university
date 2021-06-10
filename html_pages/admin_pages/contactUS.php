@@ -1,44 +1,44 @@
- 
-<?php 
-session_start();
-include ('../../entity/ContactUs.php');
-$contactUs=new ContactUs();
-$row =$contactUs->fetchAll();
- 
+ <?php
+	session_start();
+	include('../../entity/ContactUs.php');
+	$contactUs = new ContactUs();
+	$row = $contactUs->fetchAll();
 
 
 
-if (isset($_GET['delete-submit'])) {
-	$id = $_GET['delete'];
 
-	try {
-		$contactUs->deleteMessage($id);
-		$contactUs->closeConnection();
-		header('Location: ' . $_SERVER['PHP_SELF']);
-		die;
-	} catch (\Throwable $th) {
-		echo $th;
+	if (isset($_GET['delete-submit'])) {
+		$id = $_GET['delete'];
+
+		try {
+			$contactUs->deleteMessage($id);
+			$contactUs->closeConnection();
+			header('Location: ' . $_SERVER['PHP_SELF'] . '?query=deleted');
+			die;
+		} catch (\Throwable $th) {
+			echo $th;
+		}
 	}
-}
-?>
+	?>
+ <!doctype html>
+ <html lang="en">
 
+ <?php include('../../includes/admin_includes/head.php') ?>
 
-<!doctype html>
-<html lang="en">
+ <body>
 
-<?php include('../../includes/admin_includes/head.php') ?>
-
-<body>
-
-	<div class="wrapper d-flex align-items-stretch">
+ 	<div class="wrapper d-flex align-items-stretch">
  		<!-- sidebar  -->
  		<?php include('../../includes/admin_includes/sidebar.php') ?>
 
-		<!-- Page Content  -->
-		<div id="content" class="p-4 p-md-5 pt-5">
-
-		 
-		<div class="table-responsive">
+ 		<!-- Page Content  -->
+ 		<div id="content" class="p-4 p-md-5 pt-5">
+ 			<?php
+				if ($_GET['query'] == 'deleted') {
+					echo '<div class="alert alert-danger">data has been deleted</div>';
+				}
+				?>
+ 			<div class="table-responsive">
  				<table class="table table-borderd">
  					<thead>
  						<tr>
@@ -48,7 +48,7 @@ if (isset($_GET['delete-submit'])) {
  							<th>Email</th>
  							<th>Message</th>
  							<th>Created at</th>
- 					 
+
 
 
  						</tr>
@@ -64,10 +64,10 @@ if (isset($_GET['delete-submit'])) {
  							<td>
  								<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
  									<input type="hidden" name="delete" value="<?php echo $element['contact_us_id']; ?>">
- 									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
+ 									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">DELETE</button>
  								</form>
 
- 			 
+
 
  							</td>
 
@@ -77,23 +77,21 @@ if (isset($_GET['delete-submit'])) {
  				</table>
  			</div>
 
-		</div>
+ 		</div>
 
 
 
- 
 
 
 
-	</div>
+
+ 	</div>
 
 
-	</div>
+ 	</div>
 
 
-    <?php include('../../includes/admin_includes/scripts.php') ?>
-</body>
+ 	<?php include('../../includes/admin_includes/scripts.php') ?>
+ </body>
 
-</html>
- 
- 
+ </html>

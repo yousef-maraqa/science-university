@@ -136,7 +136,7 @@ if ($message != '') {
 							<td>
 								<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
 									<input type="hidden" name="delete" value="<?php echo $element['navigation_id']; ?>">
-									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
+									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">DELETE</button>
 								</form>
 
 								<a type="submit" name="edit_btn" class="btn btn-success my-1" href="./editLinks.php?ID=<?php echo $element['navigation_id']; ?>">UPDATE</butaton>

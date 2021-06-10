@@ -34,11 +34,11 @@ if (isset($_GET['message'])) {
 
 
 
-			<form action='../../entity/editSlider.php?ID=<?php echo $_GET['ID']; ?>&media=<?php echo $row[0]['media_PK']; ?>' method="post" enctype="multipart/form-data" class="form ml-4" id="addSlider">
+			<form action='../../entity/editSlider.php?ID=<?php echo $_GET['ID']; ?>&media=<?php echo $row[0]['media_id']; ?>' method="post" enctype="multipart/form-data" class="form ml-4" id="addSlider">
 				<div class="row">
 					<div class="form-group">
 					<label for="slider_text">slider text</label>
-						<input type="text" name="slider_text" id="slider_text" required placeholder="image_text" class="form-control" value="<?php echo $row[0]['slider_text']; ?>" maxlength="45">
+						<input type="text" name="slider_text" id="slider_text" rel="txtTooltip" title="maximum 45 characters" data-toggle="tooltip" data-placement="right"   required placeholder="image_text" class="form-control" value="<?php echo $row[0]['slider_text']; ?>" maxlength="45">
 					</div>
 
 				</div>
@@ -61,7 +61,8 @@ if (isset($_GET['message'])) {
 				<div class="col-12 col-md-9">
 					<input type="file" id="file-input" name="file" class="form-control-file">
 				</div>
-				<div class="form-group">
+				<div class="form-group my-3">
+				<label for="alt">alternative text</label>
 					<input type="text" name="alt" id="alt" required placeholder="alternative text" class="form-control" value="<?php echo $row[0]['img_Alt'] ?>">
 				</div>
 				<input type="submit" value="submit" name="submit" class="  btn btn-success">

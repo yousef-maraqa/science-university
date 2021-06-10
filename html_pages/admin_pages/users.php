@@ -12,17 +12,17 @@
    $message='';
 	$row=$users->fetchAllToDelete($user_id);
 	$name = $email = $password = $role = $is_active = '';
-	if (isset($_GET['submit'])) {
-		$name=$_GET['name'];
-		$email=$_GET['email'];
-		$password=$_GET['password'];
-		$role=$_GET['role'];
-		$is_active=$_GET['active'];
+	if (isset($_POST['submit'])) {
+		$name=$_POST['name'];
+		$email=$_POST['email'];
+		$password=$_POST['password'];
+		$role=$_POST['role'];
+		$is_active=$_POST['active'];
 		$hashedPassword=password_hash($password,PASSWORD_DEFAULT); 
 	   try {
 		   $users->newUser($name, $email, $hashedPassword, $role, $is_active);
-		   $message='data has been added';
-		 
+		   header('Location: ' . $_SERVER['PHP_SELF'].'?query=added');
+		   die;
 	   } catch (\Throwable $th) {
 		   echo $th;
 	   }
@@ -33,16 +33,14 @@
 	
 		try {
 		   $users->deleteUser($id);
-		   header('Location: ' . $_SERVER['PHP_SELF']);
+		   header('Location: ' . $_SERVER['PHP_SELF'].'?query=s');
 		   die;
 		} catch (\Throwable $th) {
 		   echo $th;
 		}
 	}
 
-	if ($message != '') {
-		$msg='<div class="alert alert-success">'.$message.'</div>' ;
-	}
+ 
    ?>
 
 <html lang="en">
@@ -57,8 +55,12 @@
 
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
-		<?php echo $msg; ?>
-
+		<?php if ($_GET['query']=='s') {
+	  echo '<div class="alert alert-danger">data has been deleted</div>';
+		} ?>
+	<?php if ($_GET['query']=='added') {
+	  echo '<div class="alert alert-success">data has been added</div>';
+		} ?>
 
 
 
@@ -69,7 +71,7 @@
 
 			</p>
 			<div class="collapse" id="collapseExample">
-				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET" class="form ml-4" id="addUser">
+				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="form ml-4" id="addUser">
 					<div class="row">
 						<div class="form-group">
 							<input type="text" name="name" id="name" required placeholder="name" class="form-control">
@@ -130,7 +132,7 @@
 							 
 							<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
 								 <input type="hidden" name="delete" value="<?php echo $element['user_id']; ?>" >
-								 <button type="submit" name="delete-submit" class="btn btn-danger"    onclick="confirm('Are you sure?')">DELETE</button>
+								 <button type="submit" name="delete-submit" class="btn btn-danger"    onclick="return confirm('Are you sure?')">DELETE</button>
 								 </form>
 								 
 								 <a type="submit" name="edit_btn" class="btn btn-success my-1"  href="./editUsers.php?ID=<?php  echo $element['user_id']; ?>" >UPDATE</butaton>

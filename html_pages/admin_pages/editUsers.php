@@ -38,8 +38,8 @@ if (isset($_GET['message'])) {
 							<input type="text" readonly name="role" id="role" required placeholder="role" class="form-control" value="<?php echo $row[0]['role'] ?>">
 						</div>
 					<select name="active" required class="form-control" value="<?php echo $row[0]['is_active'] ?>">
-						<option value="active">active</option>
-						<option value="notActive">not active</option>
+						<option value="active" <?php if ($row[0]['is_active']=='active') echo "selected='selected'";?>>active</option>
+						<option value="notActive"  <?php if ($row[0]['is_active']=='notActive') echo "selected='selected'";?>>not active</option>
 					</select>
 
 					<input type="submit" value="submit" name="submit" class="  btn btn-success">

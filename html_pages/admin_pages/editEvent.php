@@ -36,7 +36,7 @@ $eventID =$_GET['ID'] ;
 
 
  
-                <form action='../../entity/editEvent.php?ID=<?php echo $_GET['ID'];  ?>' method="POST" class="form ml-4" id="editEvent">
+                <form action="../../entity/editEvent.php?ID=<?php echo $_GET['ID'];?>&media=<?php echo $row[0]['media_id']; ?>" method="POST" class="form ml-4" id="editEvent">
                     <div class="row">
                         <div class="form-group">
                             <input type="text" name="title" id="title" required placeholder="title" class="form-control" value="<?php echo $row[0]['title'] ?>" >

@@ -13,7 +13,7 @@ require('../../entity/media.php');
 $slider = new Slider();
 $media = new Media();
 
-
+$$message='';
 if (isset($_POST['submit'])) {
 	// get image data
 	$file = $_FILES['file'];
@@ -48,6 +48,8 @@ if (isset($_POST['submit'])) {
 	try {
 		$media->insertIMG($image_name, $alt, 'slider');
 		$slider->newSlider($slider_text, $rank, $userid);
+		$message='data has been added';
+
 	} catch (\Throwable $th) {
 		echo $th;
 	}
@@ -62,12 +64,16 @@ if (isset($_GET['delete-submit'])) {
 
 	try {
 		$slider->deleteSlider($id);
-		header('Location: ' . $_SERVER['PHP_SELF']);
+		header('Location: ' . $_SERVER['PHP_SELF'].'?query=deleted');
 		die;
 	} catch (\Throwable $th) {
 		echo $th;
 	}
 }
+if ($message != '') {
+	$msg='<div class="alert alert-success">'.$message.'</div>' ;
+}
+ 
 ?>
 <html lang="en">
 
@@ -81,6 +87,14 @@ if (isset($_GET['delete-submit'])) {
 
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
+		<?php 
+	if ($_GET['query']=='deleted') {
+		echo '<div class="alert alert-danger">data has been deleted</div>';
+		  }
+		echo $msg;
+		
+		
+		?>
 
 
 
@@ -95,7 +109,7 @@ if (isset($_GET['delete-submit'])) {
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data" class="form ml-4" id="addSlider">
 					<div class="row">
 						<div class="form-group">
-							<input type="text" name="slider_text" id="slider_text" required placeholder="image_text" class="form-control" maxlength="45">
+							<input type="text" name="slider_text" rel="txtTooltip" title="maximum 45 characters" data-toggle="tooltip" data-placement="right"  id="slider_text" required placeholder="image_text" class="form-control" maxlength="45">
 						</div>
 
 					</div>
@@ -173,7 +187,7 @@ if (isset($_GET['delete-submit'])) {
 							<td>
 								<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
 									<input type="hidden" name="delete" value="<?php echo $element['slider_id']; ?>">
-									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
+									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">DELETE</button>
 								</form>
 
 								<a type="submit" name="edit_btn" class="btn btn-success  my-1" href="./editSlider.php?ID=<?php echo $element['slider_id']; ?>">UPDATE</butaton>

@@ -5,85 +5,65 @@
 
 
 	require('../../entity/Events.php');
-	
+
 	require('../../entity/media.php');
 
 
 
 	$event = new Events;
-	$media= new Media;
+	$media = new Media;
 
 	$title = $body = $startDate = $endDate = $location = $status = '';
 	if (isset($_POST['submit'])) {
+		// get image data
+		$file = $_FILES['file'];
+		$image_name = $_FILES['file']['name'];
+		$tmp_name   = $_FILES['file']['tmp_name'];
+		$fileError = $_FILES['file']['error'];
+		$fileSize = $_FILES['file']['size'];
+		$fileType = $_FILES['file']['type'];
+		$fileExt = explode('.', $image_name);
+		$fileActualExt = strtolower(end($fileExt));
+		$allowed = array('jpg', 'jpeg', 'png', 'svg');
+		if (in_array($fileActualExt, $allowed)) {
+			if ($fileError === 0) {
+				if ($fileSize < 500000) {
+					$fileDestination =  "../../theme/assets/" . $image_name;
+					move_uploaded_file($tmp_name, $fileDestination);
+				} else {
+					echo "Your image is too big";
+				}
+			} else {
+				echo "There was an error Uploading you file";
+			}
+		} else {
+			echo "You can upload jpg,jpeg,png Files";
+		}
+
+
+
 		$title = $_POST['title'];
 		$body = $_POST['body'];
 		$start_time = $_POST['start_time'];
 		$end_time = $_POST['end_time'];
 		$date = $_POST['date'];
 		$location = $_POST['location'];
-		$end_time=	date("H:i:s", strtotime( $_POST['end_time']));
-		$start_time=	date("H:i:s", strtotime( $_POST['start_time']));
+		$end_time =	date("H:i:s", strtotime($_POST['end_time']));
+		$start_time =	date("H:i:s", strtotime($_POST['start_time']));
 		$status = $_POST['status'];
 		$userid =   $_SESSION['userid'];
 		$summary = $_POST['summary'];
+		$alt = $_POST['alt'];
 		try {
-			$event->newEvent($title, $body, $summary, $start_time,$end_time,$date, $location,  $status, $userid);
+			$media->insertIMG($image_name,$alt,'events');
+			$event->newEvent($title, $body, $summary, $start_time, $end_time, $date, $location,  $status, $userid);
 		} catch (\Throwable $th) {
 			echo $th;
 		}
-
-
-		//saving image
-		$target_dir = "../../theme/assets/";
-		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-		$uploadOk = 1;
-		$imageFileType =
-			strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-		// Check if image file is a actual image or fake image
-		if (isset($_POST["submit"])) {
-			$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-			if ($check !== false) {
-				 
-				$uploadOk = 1;
-			} else {
-				echo "File is not an image.";
-				$uploadOk = 0;
-			}
-		}
-		if (file_exists($target_file)) {
-			echo "Sorry, file already exists.";
-			$uploadOk = 0;
-		}
-		// Check file size
-		if ($_FILES["fileToUpload"]["size"] > 1000000) {
-			echo "Sorry, your file is too large.";
-			$uploadOk = 0;
-		}
-		// Allow certain file formats
-		if (
-			$imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-			&& $imageFileType != "gif"
-		) {
-			echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-			$uploadOk = 0;
-		}
-		if ($uploadOk == 0) {
-			echo "Sorry, your file was not uploaded.";
-		  // if everything is ok, try to upload file
-		  } else {
-			if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-			//   echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-			
-			$alt = $_POST['alt'];
-				$media->insertIMG(htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])),$alt,'event');
-			} else {
-			  echo "Sorry, there was an error uploading your file.";
-			}
-		  }
 	}
 	$row = '';
-	$row = $event->fetchAll();
- 
+	$row = $event->fetchWithImg();
+
  
 
 	if (isset($_GET['delete-submit'])) {
@@ -91,7 +71,7 @@
 
 		try {
 			$event->deleteEvent($id);
-			header('Location: ' . $_SERVER['PHP_SELF']);
+			header('Location: ' . $_SERVER['PHP_SELF'].'?query=deleted');
 			die;
 		} catch (\Throwable $th) {
 			echo $th;
@@ -111,7 +91,9 @@
  		<!-- Page Content  -->
  		<div id="content" class="p-4 p-md-5 pt-5">
 
-
+		 <?php if ($_GET['query']=='deleted') {
+	  echo '<div class="alert alert-danger">data has been deleted</div>';
+		} ?>
 
 
  			<p>
@@ -135,18 +117,22 @@
  					<div class="collapse" id="summary">
  						<input type="text" name="summary" id="summary" placeholder="summary" class="form-control">
  					</div>
- 					<input type="file" name="fileToUpload" id="fileToUpload">
-
- 					<div class="form-group my-4">
- 						<label for="alt">choose alternative text</label>
- 						<input type="text" name="alt" id="alt" required placeholder="text..." class="form-control">
- 					</div>
+ 					<div class="col col-md-3">
+						<label for="file-input" class=" form-control-label">Image</label>
+					</div>
+					<div class="col-12 col-md-9">
+						<input type="file" id="file-input" name="file" class="form-control-file">
+					</div>
+					<div class="form-group my-4">
+						<label for="alt">choose alternative text</label>
+						<input type="text" name="alt" id="alt" required placeholder="text..." class="form-control">
+					</div>
  					</p>
  					<div class="row my-4">
  						<textarea rows="4" cols="50" name="body" required form="addEvent">
 						Enter text here...</textarea>
  					</div>
-					 <div class="form-group">
+ 					<div class="form-group">
  						<input type="date" name="date" id="date" required placeholder="date" class="form-control">
  					</div>
  					<div class="row d-flex form-group">
@@ -172,20 +158,14 @@
  			<div class="table-responsive">
  				<table class="table table-borderd">
  					<thead>
- 						<tr>
+ 						<tr  class="w-100">
  							<th>event id</th>
- 							<th>user id</th>
- 							<th>title</th>
- 							<th>body</th>
+ 							<th style="width: 10%;">title</th>
  							<th>summary</th>
- 							<th>start time</th>
- 							<th>end time</th>
-							 <th>date</th>
- 							<th>location</th>
+ 							<th style="width: 20%;">image </th>
  							<th>status</th>
-							 <th>image key</th>
+
  							<th>created at</th>
- 							<th>updated at</th>
 
 
  						</tr>
@@ -193,20 +173,25 @@
  					<?php foreach ($row as $element) : ?>
 
  						<tr>
- 							<?php foreach ($element as $detail) : ?>
- 								<td><?php echo $detail ?>
- 								</td>
-
- 							<?php endforeach; ?>
+ 							<td><?php echo $element['event_id']; ?></td>
+ 							<td><?php echo $element['title']; ?></td>
+ 							<td><?php echo $element['summary']; ?></td>
  							<td>
- 								<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
- 									<input type="hidden" name="delete" value="<?php echo $element['event_id']; ?>">
- 									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
- 								</form>
+ 								<div class="d-flex   justify-content-center">
+ 									<img style="width: 50%;" src="../../theme/assets/<?php echo $element['img_url'] ?>" alt="">
+ 								</div>
+ 							</td> 
+ 							<td><?php echo $element['status']; ?></td>
+ 							<td><?php echo $element['created_at']; ?></td>
+							 <td>
+ 							<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
+ 								<input type="hidden" name="delete" value="<?php echo $element['event_id']; ?>">
+ 								<button type="submit" name="delete-submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">DELETE</button>
+ 							</form>
 
- 								<a type="submit" name="edit_btn" class="btn btn-success" href="./editEvent.php?ID=<?php echo $element['event_id']; ?>">UPDATE</butaton>
+ 							<a type="submit" name="edit_btn" class="btn btn-success" href="./editEvent.php?ID=<?php echo $element['event_id']; ?>">UPDATE</butaton>
 
- 							</td>
+ 								</td>
 
  						</tr>
 
@@ -222,12 +207,11 @@
  	<?php include('../../includes/admin_includes/scripts.php') ?>
  	<script>
  		new FroalaEditor('textarea');
-		 if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-    }
-		 
+ 		if (window.history.replaceState) {
+ 			window.history.replaceState(null, null, window.location.href);
+ 		}
  	</script>
- 
+
  </body>
 
  </html>

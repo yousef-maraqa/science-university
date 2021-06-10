@@ -44,8 +44,9 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html lang="en">
  <head>
+ <link href="../theme/css/login.css" rel="stylesheet" >
  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
- <link href="../styles/css/login.css" rel="stylesheet" >
+
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
@@ -65,14 +66,15 @@ if (isset($_POST['submit'])) {
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <img src="../theme/assets/group-4@3x.png" id="icon" alt="User Icon" />
+      <img src="../theme/assets/group-4@3x.png" id="icon" alt="User Icon"  class="my-4"/>
     </div>
 
     <!-- Login Form -->
-    <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-      <input type="submit" class="fadeIn fourth" value="Log In">
+    <form autocomplete="off" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+      <input type="text" id="name" class="fadeIn second" name="name" placeholder="login">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+      <?php echo $error; ?>
+      <input type="submit" name="submit" class="fadeIn fourth" value="Log In">
     </form>
 
  

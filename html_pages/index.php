@@ -69,7 +69,7 @@
          <div class="carousel-item <?php if ($counter <= 1) {
                                       echo " active";
                                     } ?>">
-           <img src="../theme/assets/<?php echo $sliderData[$i]['img_url'] ?>" class="" width="100%" height="100%" alt="slider 1 people take a seat in the university square">
+           <img src="../theme/assets/<?php echo $sliderData[$i]['img_url'] ?>" class="" width="100%" height="100%" alt="<?php  echo  $sliderData[$i]['img_Alt']  ?>">
            <div class="wrapper container">
              <div class="overlay ">
                <h1 class="text-uppercase text-center">

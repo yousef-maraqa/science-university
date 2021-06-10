@@ -16,10 +16,10 @@ include_once(dirname(__FILE__).'/../config/Database.php');
 
        public function fetchWithImg(){
            $this->query(' SELECT 
-           E.event_id , E.user_id , E.title ,E.body , E.summary ,E.start_time, E.end_time ,E.date , E.location ,E.status ,E.media_pk,E.created_at,E.updated_at  ,M.img_url ,M.img_Alt ,M.sourse
+           E.event_id , E.user_id , E.title ,E.body , E.summary ,E.start_time, E.end_time ,E.date , E.location ,E.status ,E.media_id,E.created_at,E.updated_at  ,M.img_url ,M.img_Alt ,M.sourse
             FROM events AS E
            INNER JOIN media AS M
-           ON E.media_PK= M.media_PK
+           ON E.media_id= M.media_id
              ORDER BY created_at DESC');
              $this->execute();
              $row=$this->resultset();
@@ -28,8 +28,8 @@ include_once(dirname(__FILE__).'/../config/Database.php');
        }
     
      public function newEvent($title, $body, $summary, $start_time,$end_time,$date, $location,  $status, $userid){
-        $this->query('INSERT INTO events (user_id , title,body,summary ,start_time,end_time, date, location,status ,media_PK) VALUES(:userid,:title,:body, :summary ,:start_time, :end_time, :date ,  :location, :status,
-        (SELECT media_PK FROM media ORDER BY media_PK DESC LIMIT 1))');
+        $this->query('INSERT INTO events (user_id , title,body,summary ,start_time,end_time, date, location,status ,media_id) VALUES(:userid,:title,:body, :summary ,:start_time, :end_time, :date ,  :location, :status,
+        (SELECT media_id FROM media ORDER BY media_id DESC LIMIT 1))');
 		$this->bind(':title',$title);
 		$this->bind(':body',$body);
 		$this->bind(':start_time',$start_time);

@@ -2,13 +2,7 @@
 
 <?php
 session_start();
-
-
 require('../../entity/News.php');
-
-
-
-
 $news = new News();
 $news_id=$_GET['ID'];
 if (isset($_GET['message'])) {
@@ -39,7 +33,7 @@ $row=$news->getElementById($news_id);
 <?php echo $message; ?>
  
  
-				<form action="../../entity/editNews.php?ID=<?php echo $_GET['ID'];?>&media=<?php echo $row[0]['media_PK']; ?>" method="post" class="form ml-4" id="editNews" enctype="multipart/form-data">
+				<form action="../../entity/editNews.php?ID=<?php echo $_GET['ID'];?>&media=<?php echo $row[0]['media_id']; ?>" method="post" class="form ml-4" id="editNews" enctype="multipart/form-data">
 					<div class="row">
 						<div class="form-group">
 							<input type="text" name="title" id="title" required placeholder="title" class="form-control" value="<?php echo $row[0]['title'] ?>">
@@ -67,12 +61,13 @@ $row=$news->getElementById($news_id);
 						<input type="file" id="file-input" name="file" class="form-control-file">
 					</div>
 					<div class="form-group">
+							<label for="alt" class="my-3">alternative text </label>
 							<input type="text" name="alt" id="alt" required placeholder="alternative text" class="form-control" value="<?php echo $row[0]['img_Alt'] ?>"> 
 						</div>
 
-					<select name="status" required class="form-control" value="<?php echo $row[0]['status'] ?>">
-						<option value="published">published</option>
-						<option value="unpublished">unpublished</option>
+					<select name="status" required class="form-control" >
+						<option value="published" <?php if ($row[0]['status']=='published') echo "selected='selected'";?>>published</option>
+						<option value="unpublished"  <?php if ($row[0]['status']=='unpublished') echo "selected='selected'";?>>unpublished</option>
 					</select>
 
 					<input type="submit" value="submit" name="submit" class="  btn btn-success">

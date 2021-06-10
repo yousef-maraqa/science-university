@@ -68,7 +68,7 @@ if (isset($_GET['delete-submit'])) {
 
 	try {
 		$news->deleteNews($id);
-		header('Location: ' . $_SERVER['PHP_SELF']);
+		header('Location: ' . $_SERVER['PHP_SELF'].'?query=deleted');
 
 		die;
 	} catch (\Throwable $th) {
@@ -91,6 +91,9 @@ if ($message != '') {
 
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
+		<?php if ($_GET['query']=='deleted') {
+	  echo '<div class="alert alert-danger">data has been deleted</div>';
+		} ?>
 <?php echo $msg; ?>
 			<p>
 				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -174,7 +177,7 @@ if ($message != '') {
 							<td>
 								<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
 									<input type="hidden" name="delete" value="<?php echo $element['news_id']; ?>">
-									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="confirm('Are you sure?')">DELETE</button>
+									<button type="submit" name="delete-submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">DELETE</button>
 								</form>
 
 								<a type="submit" name="edit_btn" class="btn btn-success my-1" href="./editNews.php?ID=<?php echo $element['news_id']; ?>">UPDATE</butaton>

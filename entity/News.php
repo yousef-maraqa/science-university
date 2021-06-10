@@ -17,7 +17,7 @@ include_once(dirname(__FILE__).'/../config/Database.php');
 
          FROM news AS N
         INNER JOIN media AS M
-        ON N.media_PK= M.media_PK
+        ON N.media_id= M.media_id
           ORDER BY created_at DESC');
           $this->execute();
           $row=$this->resultset();
@@ -29,7 +29,7 @@ include_once(dirname(__FILE__).'/../config/Database.php');
 
          FROM news AS N
         INNER JOIN media AS M
-        ON N.media_PK= M.media_PK
+        ON N.media_id= M.media_id
         WHERE status =:published
           ORDER BY created_at DESC');
           $this->bind(':published','published');
@@ -41,7 +41,7 @@ include_once(dirname(__FILE__).'/../config/Database.php');
  
     
      public function newNews($title,$body,$summary,$status,$userid){
-        $this->query('INSERT INTO news (user_id , title,body,summary,status ,media_PK) VALUES(:userid,:title,:body,:summary ,:status , (SELECT media_PK FROM media ORDER BY media_PK DESC LIMIT 1) )');
+        $this->query('INSERT INTO news (user_id , title,body,summary,status ,media_id) VALUES(:userid,:title,:body,:summary ,:status , (SELECT media_id FROM media ORDER BY media_id DESC LIMIT 1) )');
 		$this->bind(':title',$title);
 		$this->bind(':body',$body);
         $this->bind(':summary',$summary);
@@ -74,11 +74,11 @@ include_once(dirname(__FILE__).'/../config/Database.php');
      }
      public function getElementById($news_id){
          $this->query(' 
-              SELECT  N.news_id ,N.body , N.user_id ,N.title , N.summary , N.media_PK ,  M.img_url ,M.img_Alt , N.status ,N.created_at  
+              SELECT  N.news_id ,N.body , N.user_id ,N.title , N.summary , N.media_id ,  M.img_url ,M.img_Alt , N.status ,N.created_at  
 
          FROM news AS N
         INNER JOIN media AS M
-        ON N.media_PK= M.media_PK
+        ON N.media_id= M.media_id
         
          WHERE news_id=:news_id
          ORDER BY created_at DESC');
