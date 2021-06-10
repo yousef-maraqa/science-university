@@ -2,6 +2,7 @@
 
 <?php
 session_start();
+error_reporting(0);
 require('../../entity/News.php');
 $news = new News();
 $news_id=$_GET['ID'];
@@ -58,7 +59,7 @@ $row=$news->getElementById($news_id);
 					<img class="w-100" src="../../theme/assets/<?php echo $row[0]['img_url']  ?>" >
 					</div>
 					<div class="col-12 col-md-9">
-						<input type="file" id="file-input" name="file" class="form-control-file">
+						<input type="file" id="file-input" name="file" class="form-control-file"  rel="txtTooltip" title="photo size can be upto 1MB" data-toggle="tooltip" data-placement="right">
 					</div>
 					<div class="form-group">
 							<label for="alt" class="my-3">alternative text </label>

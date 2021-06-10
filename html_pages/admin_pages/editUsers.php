@@ -1,6 +1,10 @@
 <!doctype html>
 
 <?php
+
+// Turn off all error reporting
+error_reporting(0);
+
    session_start();
    require '../../entity/Users.php';
    $users = new Users;

@@ -4,7 +4,7 @@
 class Database{
     private $host ='localhost';
     private $user ='root';
-    private $pass ='123123';
+    private $pass ='';
     private $dbname ='su';
     private $dbh;
     private $error;

@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-
+error_reporting(0);
 
 require('../../entity/Slider.php');
 
@@ -129,7 +129,7 @@ if ($message != '') {
 						<label for="file-input" class=" form-control-label">Image</label>
 					</div>
 					<div class="col-12 col-md-9">
-						<input type="file" id="file-input" name="file" class="form-control-file">
+						<input type="file" id="file-input" name="file" class="form-control-file"  rel="txtTooltip" title="photo size can be upto 1MB" data-toggle="tooltip" data-placement="right">
 					</div>
 					<div class="form-group my-4">
 						<label for="alt">choose alternative text</label>
